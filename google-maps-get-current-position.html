@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Google Maps</title>
+		<style type="text/css">
+			html { height: 100% }
+			body { height: 100%; margin: 0; padding: 0 }
+			#map_canvas { height: 100% }
+		</style>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&libraries=geometry"></script>
+		<script type="text/javascript">
+			function initialize() {
+				// Hier wordt de map aangemaakt en de oude afbeelding ingeladen
+				var map = new google.maps.Map(document.getElementById('map_canvas'), {
+					center: new google.maps.LatLng(52.376018, 4.901962),
+					zoom: 15,
+					mapTypeControl: false,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					streetViewControl: false
+				});
+				
+				if(navigator.geolocation) {
+					navigator.geolocation.watchPosition(function(position) {
+						var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+						map.setCenter(pos);
+					}, function() {
+						handleNoGeolocation(true);
+					});
+				} else {
+					// Browser doesn't support Geolocation
+					handleNoGeolocation(false);
+				} 
+			}
+		</script>
+	</head>
+	<body onload="initialize()">
+		<div id="map_canvas" style="width:100%; height:100%"></div>
+	</body>
+</html>
